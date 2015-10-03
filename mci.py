@@ -140,10 +140,23 @@ class ColorGroup(Group):
     DISCO_SPEED_SLOWER = (67).to_bytes(1, byteorder='big')  # send 100ms after GROUP_ON
     DISCO_SPEED_FASTER = (68).to_bytes(1, byteorder='big')  # send 100ms after GROUP_ON
 
+    # Specials disco
+    DISCO_CODE = b"\x42\x00\x40\x40\x42\x00\x4e\x02"
+    DISCO_CODES = {
+        "RAINBOW": b"\x4d\x00" * 1,
+        "WHITE BLINK": b"\x4d\x00" * 2,
+        "COLOR FADE": b"\x4d\x00" * 3,
+        "COLOR CHANGE": b"\x4d\x00" * 4,
+        "COLOR BLINK": b"\x4d\x00" * 5,
+        "RED BLINK": b"\x4d\x00" * 6,
+        "GREEN BLINK": b"\x4d\x00" * 7,
+        "BLUE BLINK": b"\x4d\x00" * 8,
+        "DISCO": b"\x4d\x00" * 9
+    }
+
     # Set COLOR
     # Byte2: 0×00 to 0xFF (255 colors) = COLOR_CODE
     COLOR = (64).to_bytes(1, byteorder='big')  # send 100ms after GROUP_ON
-
     COLOR_CODES = {
         "VIOLET": b"\x00",
         "ROYALBLUE": b"\x10",
@@ -178,10 +191,14 @@ class ColorGroup(Group):
         self.on()
         self.send_command(self.BRIGHTNESS, (value).to_bytes(1, byteorder='big'))
 
-    def disco(self):
-        """ Enable disco mode """
+    def disco(self, mode=''):
+        """ Enable disco mode, if no valid mode is provided the default disco mode is started """
         self.on()
-        self.send_command(self.DISCO_MODE)
+        if mode.upper() in self.DISCO_CODES:
+            command = self.DISCO_CODE + self.DISCO_CODES[mode.upper()]
+            self.send_command(command, byte2=b"", byte3=b"")
+        else:
+            self.send_command(self.DISCO_MODE)
 
     def increase_disco_speed(self, steps=1):
         """ Increase disco_speed """
@@ -225,6 +242,10 @@ class ColorGroup(Group):
             self.send_command(self.COLOR, colorcode)
         else:
             raise ValueError('Invalid color requested (unspecified error, value-type: ' + str(type(value)) + ')')
+
+    def disco_codes(self):
+        """ return the disco-codes """
+        return [c.lower() for c in self.DISCO_CODES.keys()]
 
     def color_codes(self):
         """ return the color-codes """
