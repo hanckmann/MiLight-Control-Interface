@@ -38,7 +38,7 @@ The ColorGroup and WhiteGroup classes can be used to control groups of RGBW and 
 - ColorGroup
     + white()
     + brightness(value=10)
-    + disco()
+    + disco(mode='')
     + increase_disco_speed(steps=1)
     + decrease_disco_speed(steps=1)
     + color(value)
@@ -56,7 +56,19 @@ The interface names should be self explanatory, except for:
 
 *brightness(value=10):* sets the brightness of an RGBW lamp to a value between 0 and 25. Input values are rounded to the value closest within the range 0 to 25.
 
-*disco():* start the (next) preset disco mode of an RGBW lamp. Disco mode can be stopped by providing a color or setting the lamp into white mode.
+*disco(mode=''):* if no (valid) mode is selected: start the (next) preset disco mode of an RGBW lamp. A number of disco-modes can be started specifically by providing the mode name as argument.
+Disco mode can be stopped by providing a color or setting the lamp into white mode.
+
+- supported disco-modes:
+    + color change
+    + color fade
+    + color blink
+    + white blink
+    + green blink
+    + blue blink
+    + red blink
+    + rainbow
+    + disco
 
 *color(value):* sets the color of an RGBW lamp. The following are valid inputs:
 
