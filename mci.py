@@ -226,6 +226,10 @@ class ColorGroup(Group):
         else:
             raise ValueError('Invalid color requested (unspecified error, value-type: ' + str(type(value)) + ')')
 
+    def color_codes(self):
+        """ return the color-codes """
+        return [c.lower() for c in self.COLOR_CODES.keys()]
+
 
 class WhiteGroup(Group):
     """ A group of white bulbs/strips """
