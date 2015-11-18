@@ -52,7 +52,7 @@ class Group(object):
         if pause <= 0:
             pause = 0.1
         self.pause = pause
-        if group_number in [1, 2, 3, 4]:
+        if str(group_number) in ['1', '2', '3', '4']:
             self.group = str(group_number)
         else:
             self.group = 'ALL'
