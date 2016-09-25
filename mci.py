@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ MiLight Control Interface
 
 A powerful Python API to control your MiLight LED bulbs and strips (White and RGBW).
