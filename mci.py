@@ -186,7 +186,7 @@ class ColorGroup(Group):
         self.send_command(self.GROUP_WHITE[self.group])
 
     def brightness(self, value=10):
-        """ Set brightness level """
+        """ Set brightness level (0 <= value <= 25) """
         value += 2                      # value should be between 0 and 25
         value = max(2, min(27, value))  # value should be between 2 and 27
         self.on()
@@ -202,14 +202,14 @@ class ColorGroup(Group):
             self.send_command(self.DISCO_MODE)
 
     def increase_disco_speed(self, steps=1):
-        """ Increase disco_speed """
+        """ Increase disco_speed (1 <= value <= 30) """
         steps = max(1, min(30, steps))  # value should be between 1 and 30
         self.on()
         for i in range(0, steps):
             self.send_command(self.DISCO_SPEED_FASTER)
 
     def decrease_disco_speed(self, steps=1):
-        """ Decrease disco_speed """
+        """ Decrease disco_speed (1 <= value <= 30) """
         steps = max(1, min(30, steps))  # value should be between 1 and 30
         self.on()
         for i in range(0, steps):
@@ -246,11 +246,11 @@ class ColorGroup(Group):
 
     def disco_codes(self):
         """ return the disco-codes """
-        return [c.lower() for c in self.DISCO_CODES.keys()]
+        return [c for c in self.DISCO_CODES.keys()]
 
     def color_codes(self):
         """ return the color-codes """
-        return [c.lower() for c in self.COLOR_CODES.keys()]
+        return [c for c in self.COLOR_CODES.keys()]
 
 
 class WhiteGroup(Group):
@@ -322,28 +322,28 @@ class WhiteGroup(Group):
         super().___init___(ip_address, port, pause, group_number)
 
     def increase_brightness(self, steps=1):
-        """ Increase brightness """
+        """ Increase brightness (1 <= value <= 30) """
         steps = max(1, min(30, steps))  # value should be between 1 and 30
         self.on()
         for i in range(0, steps):
             self.send_command(self.BRIGHTNESS_UP)
 
     def decrease_brightness(self, steps=1):
-        """ Decrease brightness """
+        """ Decrease brightness (1 <= value <= 30) """
         steps = max(1, min(30, steps))  # value should be between 1 and 30
         self.on()
         for i in range(0, steps):
             self.send_command(self.BRIGHTNESS_DOWN)
 
     def increase_warmth(self, steps=1):
-        """ Increase warmth """
+        """ Increase warmth (1 <= value <= 30) """
         steps = max(1, min(30, steps))  # value should be between 1 and 30
         self.on()
         for i in range(0, steps):
             self.send_command(self.WARM_WHITE_INCREASE)
 
     def decrease_warmth(self, steps=1):
-        """ Decrease warmth """
+        """ Decrease warmth (1 <= value <= 30) """
         steps = max(1, min(30, steps))  # value should be between 1 and 30
         self.on()
         for i in range(0, steps):
