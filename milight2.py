@@ -4,7 +4,7 @@
 
 import argparse
 import mci
-import parser
+import mci_parser
 
 
 def main():
@@ -85,7 +85,7 @@ def main():
         print(' value: ' + str(value))
 
     # Parse, validate, and execute the requested command
-    parser.execute_command(bridge, bulb, group, action, value)
+    mci_parser.execute_command(bridge, bulb, group, action, value)
 
 
 if __name__ == '__main__':
