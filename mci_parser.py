@@ -59,8 +59,6 @@ def parse_action(action, bulb):
 def parse_value(value, action):
     """ Parser and validator for the value information (depends on the action) """
     # For RGBW bulbs
-    if not value:
-        return value
     if action == 'BRIGHTNESS':
         value = int(value)
         if value >= 0 and value <= 25:
@@ -74,6 +72,8 @@ def parse_value(value, action):
         else:
             raise MCIParserException('Provided value not valid')
     if action in ['INCREASE_DISCO_SPEED', 'DECREASE_DISCO_SPEED']:
+        if not value:
+            value = 1
         value = int(value)
         if value >= 1 and value <= 30:
             return value
@@ -87,6 +87,8 @@ def parse_value(value, action):
             raise MCIParserException('Provided value not valid')
     # For WHITE bulbs
     if action in ['INCREASE_BRIGHTNESS', 'DECREASE_BRIGHTNESS', 'INCREASE_WARMTH', 'DECREASE_WARMTH']:
+        if not value:
+            value = 1
         value = int(value)
         if value >= 1 and value <= 30:
             return value
@@ -136,13 +138,13 @@ def execute_command(bridge, bulb, group, action, value):
         if action == 'OFF':
             lc.off()
         if action == 'INCREASE_BRIGHTNESS':
-            lc.increase_brightness()
+            lc.increase_brightness(value)
         if action == 'DECREASE_BRIGHTNESS':
-            lc.decrease_brightness()
+            lc.decrease_brightness(value)
         if action == 'INCREASE_WARMTH':
-            lc.increase_warmth()
+            lc.increase_warmth(value)
         if action == 'DECREASE_WARMTH':
-            lc.decrease_warmth()
+            lc.decrease_warmth(value)
         if action == 'BRIGHTMODE':
             lc.brightmode()
         if action == 'NIGHTMODE':
