@@ -98,7 +98,7 @@ Disco mode can be stopped by providing a color or setting the lamp into white mo
 
 ## mci_parser.py
 
-In this file three API's are defined:
+In this file two API's are defined:
 - validate_command
 - execute_command
 
