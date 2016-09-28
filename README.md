@@ -167,6 +167,37 @@ Is the commandline utility which shows the MCI API. It can  be used as follows:
       --b                   Action (white bulbs/strips only): BRIGHT_MODE
       --n                   Action (white bulbs/strips only): NIGHT_MODE
 
+## milight2.py
+
+Is a commandline utility which shows the parser API. It can  be used as follows:
+
+    usage: milight2.py [-h] [-s] [-i ADDRESS] [-p PORT] [-c RGBW] [-w WHITE]
+                       [-a [ACTION [ACTION ...]]] [--colors] [--disco_modes] [-v]
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -s, --scan            Search wifi bridges.
+      -i ADDRESS, --ip_address ADDRESS
+                            IP address.
+      -p PORT, --port PORT  Port number.
+      -c RGBW, --rgbw RGBW  Set RGBW target group, default: None (1, 2, 3, 4,
+                            ALL)
+      -w WHITE, --white WHITE
+                            Set White target group, default: None (1, 2, 3, 4,
+                            ALL)
+      -a [ACTION [ACTION ...]], --action [ACTION [ACTION ...]]
+                            The desired action, default: None 
+                            (for white bulbs/strips: 
+                                ON, OFF, INC_BRIGHTNESS, DEC_BRIGHTNESS,
+                                INC_WARMTH, DEC_WARMTH, BRIGHT_MODE, NIGHT_MODE
+                            for rgbw bulbs/strips: 
+                                ON, OFF, DISCO_MODE,
+                                INC_DISCO_SPEED, DEC_DISCO_SPEED, as arguments
+                            )
+      --colors              Show supported colors
+      --disco_modes         Show supported disco modes
+      -v, --verbose         Show some (more) details of what is happening
+
 ## Finally
 
 It would be great if you can use this for any of your projects, and I would be happy to hear how you used it.
