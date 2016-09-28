@@ -4,7 +4,9 @@ The MiLight Control Interface is a powerful Python API to control MiLight LED bu
 
 The interface is an implementation of the LimitlessLED v4.0 Wifi Bridge Control Commandset which can be found in the documentation at http://www.limitlessled.com/dev/.
 
-The MiLight Control Interface is accompanied by a simple commandline utility which demonstrates the API.
+A parser is added which converts text (arguments) into MiLight commands.
+
+The MiLight Control Interface is accompanied by a simple commandline utility which demonstrates the API. The MiLight Control Interface Parser is also accompanied by a simple commandline utility to demonstrate the API.
 
 MiLight products are also known under the name LimitlessLED, and EasyBulb Lamps.
 
@@ -14,6 +16,8 @@ In this file three API's are defined:
 - DiscoverBridge
 - ColorGroup
 - WhiteGroup
+
+These API's control the Bridge discovery functionality, and both the White and Color groups.
 
 ### DiscoverBridge
 
@@ -91,6 +95,32 @@ Disco mode can be stopped by providing a color or setting the lamp into white mo
     + fuchsia
     + orchid
     + lavender
+
+## mci_parser.py
+
+In this file three API's are defined:
+- validate_command
+- execute_command
+
+The Parser makes it easier to connect and use the MiLight Control Interface from user provided input. It translates the textual arguments into commands. These commands are executed via the MiLight Control Interface.
+
+An example project which uses the parser interface is MiLight-Web (https://github.com/hanckmann/MiLight-Web).
+
+### validate_command
+
+The validate_command function can be used to validate the provided textual arguments. It's interface is:
+
+    validate_command(bridge, bulb, group, action, value)
+
+ToDo.
+
+### execute_command
+
+The execute_command function can be used to execute the provided textual arguments. It calls the validate_command function to validate the provided textual arguments.  It's interface is:
+
+    execute_command(bridge, bulb, group, action, value)
+
+For more details on the function arguments see: validate_command.
 
 ## milight.py
 
