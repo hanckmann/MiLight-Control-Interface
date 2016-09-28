@@ -26,7 +26,7 @@ def parse_bulb(bulb):
     elif bulb in ['WHITE']:
         return 'WHITE'
     else:
-        raise MCIParserException('Provided bulb-type not valid')
+        raise MCIParserException('Provided bulb-type not valid (' + str(bulb) + ')')
 
 
 def parse_group(group):
@@ -37,7 +37,7 @@ def parse_group(group):
     elif group in ['1', '2', '3', '4']:
         return group
     else:
-        raise MCIParserException('Provided group description not valid')
+        raise MCIParserException('Provided group description not valid (' + str(group) + ')')
 
 
 def parse_action(action, bulb):
@@ -53,7 +53,7 @@ def parse_action(action, bulb):
         # Check for WHITE actions
         if action in ['INCREASE_BRIGHTNESS', 'DECREASE_BRIGHTNESS', 'INCREASE_WARMTH', 'DECREASE_WARMTH', 'BRIGHTMODE', 'NIGHTMODE']:
             return action
-    MCIParserException('Provided action not supported')
+    MCIParserException('Provided action not supported (' + str(action) + ' / ' + str(bulb) + ')')
 
 
 def parse_value(value, action):
@@ -93,7 +93,7 @@ def parse_value(value, action):
         if value >= 1 and value <= 30:
             return value
         else:
-            raise MCIParserException('Provided value not valid')
+            raise MCIParserException('Provided value not valid (' + str(value) + ' / ' + str(action) + ')')
     return None
 
 
