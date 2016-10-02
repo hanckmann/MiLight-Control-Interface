@@ -140,11 +140,11 @@ def execute_command(bridge, bulb, group, action, value):
         elif action == 'BRIGHTNESS':
             lc.brightness(value)
         elif action == 'DISCO':
-            lc.disco()
+            lc.disco(value)
         elif action == 'INCREASE_DISCO_SPEED':
-            lc.increase_disco_speed()
+            lc.increase_disco_speed(value)
         elif action == 'DECREASE_DISCO_SPEED':
-            lc.decrease_disco_speed()
+            lc.decrease_disco_speed(value)
         elif action == 'COLOR':
             lc.color(value)
     elif bulb is 'WHITE':
