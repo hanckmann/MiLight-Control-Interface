@@ -64,13 +64,17 @@ def parse_value(value, action):
         if value >= 0 and value <= 25:
             return value
         else:
-            raise MCIParserException('Provided value not valid')
+            raise MCIParserException('Provided BRIGHTNESS value not valid (0 <= value <= 25)')
     if action == 'DISCO':
-        value = value.upper()
-        if value in mci.ColorGroup.DISCO_CODES.keys():
-            return value
+        if not value:
+            return None
+        elif isinstance(value, str):
+            if value.upper() in mci.ColorGroup.DISCO_CODES.keys():
+                return value.upper()
+            else:
+                raise MCIParserException('Provided DISCO value not valid (see: mci.ColorGroup.DISCO_CODES)')
         else:
-            raise MCIParserException('Provided value not valid')
+            raise MCIParserException('Provided DISCO value not valid')
     if action in ['INCREASE_DISCO_SPEED', 'DECREASE_DISCO_SPEED']:
         if not value:
             value = 1
@@ -78,13 +82,25 @@ def parse_value(value, action):
         if value >= 1 and value <= 30:
             return value
         else:
-            raise MCIParserException('Provided value not valid')
+            raise MCIParserException('Provided DISCO_SPEED value not valid (1 <= value <= 30)')
     if action == 'COLOR':
-        value = value.upper()
-        if value in mci.ColorGroup.COLOR_CODES.keys():
-            return value
+        ivalue = None
+        try:
+            ivalue = int(value)
+        except:
+            pass
+        if ivalue is not None:
+            if ivalue >= 0 and ivalue <= 255:
+                return ivalue
+            else:
+                raise MCIParserException('Provided COLOR value not valid (0 <= value <= 255)')
+        elif isinstance(value, str):
+            if value.upper() in mci.ColorGroup.COLOR_CODES.keys():
+                return value.upper()
+            else:
+                raise MCIParserException('Provided COLOR value not valid (see: mci.ColorGroup.COLOR_CODES)')
         else:
-            raise MCIParserException('Provided value not valid')
+            raise MCIParserException('Provided COLOR value not valid')
     # For WHITE bulbs
     if action in ['INCREASE_BRIGHTNESS', 'DECREASE_BRIGHTNESS', 'INCREASE_WARMTH', 'DECREASE_WARMTH']:
         if not value:
@@ -93,7 +109,7 @@ def parse_value(value, action):
         if value >= 1 and value <= 30:
             return value
         else:
-            raise MCIParserException('Provided value not valid (' + str(value) + ' / ' + str(action) + ')')
+            raise MCIParserException('Provided BRIGHTNESS/WARMTH value not valid (1 <= value <= 30)')
     return None
 
 
