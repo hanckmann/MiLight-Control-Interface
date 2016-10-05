@@ -5,7 +5,7 @@ A powerful parser to use the MCI Python API to control your
 MiLight LED bulbs and strips (White and RGBW).
 """
 
-import mci.mci as mci
+from . import mci
 
 
 class MCIParserException(Exception):
