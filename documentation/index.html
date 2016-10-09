@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MiLight-Control-Interface (mci) Documentation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>MiLight-Control-Interface</h1>
+
+<p>The MiLight Control Interface is a powerful Python API to control MiLight LED bulbs and strips (White and RGBW).</p>
+
+<p>Development, updates, feature requests, etc. see <a href="https://github.com/hanckmann/MiLight-Control-Interface">https://github.com/hanckmann/MiLight-Control-Interface</a>.</p>
+
+<p>The interface is an implementation of the LimitlessLED v4.0 Wifi Bridge Control Commandset which can be found in the documentation at <a href="http://www.limitlessled.com/dev/">http://www.limitlessled.com/dev/</a>.</p>
+
+<p>A parser is added which converts text (arguments) into MiLight commands.</p>
+
+<p>The MiLight Control Interface is accompanied by a simple commandline utility which demonstrates the API. The MiLight Control Interface Parser is also accompanied by a simple commandline utility to demonstrate the API.</p>
+
+<p>MiLight products are also known under the name LimitlessLED, and EasyBulb Lamps.</p>
+
+<h2>mci.py</h2>
+
+<p>In this file three API's are defined:
+- DiscoverBridge
+- ColorGroup
+- WhiteGroup</p>
+
+<p>These API's control the Bridge discovery functionality, and both the White and Color groups.</p>
+
+<h3>DiscoverBridge</h3>
+
+<p>The DiscoverBridge class can be used to discover Wifi Bridges in the local network. It's interface and usage is:</p>
+
+<pre><code># Find the Wifi Bridges
+dg = mci.DiscoverBridge(port=48899).discover()
+# Display the found Wifi Bridges
+for (addr, mac) in dg:
+    print(' - ip address :' + addr + '\tmac: ' + mac)
+</code></pre>
+
+<p>Note that the port number should not be changed in normal operation.</p>
+
+<h3>ColorGroup and WhiteGroup</h3>
+
+<p>The ColorGroup and WhiteGroup classes can be used to control groups of RGBW and White light bulbs and strips. It's interface is:</p>
+
+<ul>
+<li>ColorGroup and WhiteGroup
+<ul>
+<li>Group(ip<em>address, port=8899, pause=0.1, group</em>number=None)</li>
+<li>on()</li>
+<li>off()</li>
+</ul></li>
+<li>ColorGroup
+<ul>
+<li>white()</li>
+<li>brightness(value=10)</li>
+<li>disco(mode='')</li>
+<li>increase<em>disco</em>speed(steps=1)</li>
+<li>decrease<em>disco</em>speed(steps=1)</li>
+<li>color(value)</li>
+</ul></li>
+<li>WhiteGroup
+<ul>
+<li>increase<em>brightness(steps=1)</li>
+<li>decrease</em>brightness(steps=1)</li>
+<li>increase<em>warmth(steps=1)</li>
+<li>decrease</em>warmth(steps=1)</li>
+<li>brightmode()</li>
+<li>nightmode()</li>
+</ul></li>
+</ul>
+
+<p>Note that when creating a group (<strong>init</strong>) the optional arguments 'port' and 'pause' should not be changed in normal operation.</p>
+
+<p>The interface names should be self explanatory, except for:</p>
+
+<p><em>brightness(value=10):</em> sets the brightness of an RGBW lamp to a value between 0 and 25. Input values are rounded to the value closest within the range 0 to 25.</p>
+
+<p><em>disco(mode=''):</em> if no (valid) mode is selected: start the (next) preset disco mode of an RGBW lamp. A number of disco-modes can be started specifically by providing the mode name as argument.
+Disco mode can be stopped by providing a color or setting the lamp into white mode.</p>
+
+<ul>
+<li>supported disco-modes:
+<ul>
+<li>color change</li>
+<li>color fade</li>
+<li>color blink</li>
+<li>white blink</li>
+<li>green blink</li>
+<li>blue blink</li>
+<li>red blink</li>
+<li>rainbow</li>
+<li>disco</li>
+</ul></li>
+</ul>
+
+<p><em>color(value):</em> sets the color of an RGBW lamp. The following are valid inputs:</p>
+
+<ul>
+<li>b'\x00' &lt;= value &lt;= b'\xFF', where type(value) == bytes</li>
+<li>0 &lt;= value &lt;= 255, where type(value) == int</li>
+<li>a color name which can be found in the list below, where type(value) == str
+<ul>
+<li>violet</li>
+<li>royalblue</li>
+<li>lightskyblue</li>
+<li>aqua</li>
+<li>aquamarine</li>
+<li>seagreen</li>
+<li>green</li>
+<li>limegreen</li>
+<li>yellow</li>
+<li>goldenrod</li>
+<li>orange</li>
+<li>red</li>
+<li>pink</li>
+<li>fuchsia</li>
+<li>orchid</li>
+<li>lavender</li>
+</ul></li>
+</ul>
+
+<h2>mci_parser.py</h2>
+
+<p>In this file two API's are defined:
+- validate<em>command
+- execute</em>command</p>
+
+<p>The Parser makes it easier to connect and use the MiLight Control Interface from user provided input. It translates the textual arguments into commands. These commands are executed via the MiLight Control Interface.</p>
+
+<p>An example project which uses the parser interface is MiLight-Web <a href="https://github.com/hanckmann/MiLight-Web">https://github.com/hanckmann/MiLight-Web</a>.</p>
+
+<h3>validate_command</h3>
+
+<p>The validate_command function can be used to validate the provided textual arguments. It's interface is:</p>
+
+<pre><code>validate_command(bridge, bulb, group, action, value)
+</code></pre>
+
+<p>ToDo.</p>
+
+<h3>execute_command</h3>
+
+<p>The execute<em>command function can be used to execute the provided textual arguments. It calls the validate</em>command function to validate the provided textual arguments.  It's interface is:</p>
+
+<pre><code>execute_command(bridge, bulb, group, action, value)
+</code></pre>
+
+<p>For more details on the function arguments see: validate_command.</p>
+
+<h2>milight.py</h2>
+
+<p>Is the commandline utility which shows the MCI API. It can  be used as follows:</p>
+
+<pre><code>milight.py [-h] [-s] [-i [ADDRESS]] [-p [PORT]] [-c RGBW] [-w WHITE]
+           [-a ACTION] [--on] [--off] [--ew] [--br [ACTION_BR]]
+           [--cc [ACTION_CC]] [--d] [--id] [--dd] [--ib] [--db] [--iw]
+           [--dw] [--b] [--n]
+.
+optional arguments:
+  -h, --help            show this help message and exit
+  -s, --scan            Search wifi bridges.
+  -i [ADDRESS], --ip_address [ADDRESS]
+                        IP address.
+  -p [PORT], --port [PORT]
+                        Port number.
+  -c RGBW, --rgbw RGBW  Set RGBW target group, default: None (1, 2, 3, 4, ALL)
+  -w WHITE, --white WHITE
+                        Set White target group, default: None (1, 2, 3, 4,
+                        ALL)
+  -a ACTION, --action ACTION
+                        The desired action, default: None
+                        (for white bulbs/strips: ON, OFF,
+                            INC_BRIGHTNESS, DEC_BRIGHTNESS,
+                            INC_WARMTH, DEC_WARMTH,
+                            BRIGHT_MODE, NIGHT_MODE
+                        for rgbw bulbs/strips: ON, OFF,
+                            DISCO_MODE, INC_DISCO_SPEED, DEC_DISCO_SPEED)
+  --on                  Action: ON
+  --off                 Action: OFF
+  --ew                  Action (rgbw bulbs/strips only): WHITE
+  --br [ACTION_BR]      Action (rgbw bulbs/strips only): set brightness
+                         (0&lt;= value &lt;= 25)
+  --cc [ACTION_CC]      Action (rgbw bulbs/strips only): set color
+                         (int: 0 &lt;=value &lt;= 255)
+  --d                   Action (rgbw bulbs/strips only): DISCO_MODE
+  --id                  Action (rgbw bulbs/strips only): INC_DISCO_SPEED
+  --dd                  Action (rgbw bulbs/strips only): DEC_DISCO_SPEED
+  --ib                  Action (white bulbs/strips only): INC_BRIGHTNESS
+  --db                  Action (white bulbs/strips only): DEC_BRIGHTNESS
+  --iw                  Action (white bulbs/strips only): INC_WARMTH
+  --dw                  Action (white bulbs/strips only): DEC_WARMTH
+  --b                   Action (white bulbs/strips only): BRIGHT_MODE
+  --n                   Action (white bulbs/strips only): NIGHT_MODE
+</code></pre>
+
+<h2>milight2.py</h2>
+
+<p>Is a commandline utility which shows the parser API. It can  be used as follows:</p>
+
+<pre><code>usage: milight2.py [-h] [-s] [-i ADDRESS] [-p PORT] [-c RGBW] [-w WHITE]
+                   [-a [ACTION [ACTION ...]]] [--colors] [--disco_modes] [-v]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s, --scan            Search wifi bridges.
+  -i ADDRESS, --ip_address ADDRESS
+                        IP address.
+  -p PORT, --port PORT  Port number.
+  -c RGBW, --rgbw RGBW  Set RGBW target group, default: None (1, 2, 3, 4,
+                        ALL)
+  -w WHITE, --white WHITE
+                        Set White target group, default: None (1, 2, 3, 4,
+                        ALL)
+  -a [ACTION [ACTION ...]], --action [ACTION [ACTION ...]]
+                        The desired action, default: None 
+                        (for white bulbs/strips: 
+                            ON, OFF, INC_BRIGHTNESS, DEC_BRIGHTNESS,
+                            INC_WARMTH, DEC_WARMTH, BRIGHT_MODE, NIGHT_MODE
+                        for rgbw bulbs/strips: 
+                            ON, OFF, DISCO_MODE,
+                            INC_DISCO_SPEED, DEC_DISCO_SPEED, as arguments
+                        )
+  --colors              Show supported colors
+  --disco_modes         Show supported disco modes
+  -v, --verbose         Show some (more) details of what is happening
+</code></pre>
+
+<h2>Finally</h2>
+
+<p>It would be great if you can use this for any of your projects, and I would be happy to hear how you used it.</p>
+
+<p>Also feel free to bug me with update/bugfix/feature requests. I will add those if possible.</p>
+
+<p>~~ Patrick</p>
+
+</body>
+</html>
