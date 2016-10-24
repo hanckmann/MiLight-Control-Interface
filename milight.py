@@ -3,7 +3,8 @@
 """ MiLight Commandline Interface """
 
 import argparse
-import mci
+import mci.bridges
+import mci.bulbs
 
 
 def main():
@@ -64,7 +65,7 @@ def main():
     # Scan for wifi bridges (to find the ip address)
     if args.scan:
         print('Discovering bridges')
-        dg = mci.DiscoverBridge(port=48899).discover()
+        dg = mci.bridges.DiscoverBridge(port=48899).discover()
         for (addr, mac) in dg:
             print(' - ip address :' + addr + '\tmac: ' + mac)
 
@@ -120,7 +121,7 @@ def main():
         group = None
         if args.rgbw in ['1', '2', '3', '4']:
             group = int(args.rgbw)
-        lc = mci.ColorGroup(address, port, group_number=group)
+        lc = mci.bulbs.ColorGroup(address, port, group_number=group)
         if action_on:
             lc.on()
         if action_off:
@@ -144,7 +145,7 @@ def main():
         group = None
         if args.white in ['1', '2', '3', '4']:
             group = int(args.white)
-        lc = mci.WhiteGroup(address, port, group_number=group)
+        lc = mci.bulbs.WhiteGroup(address, port, group_number=group)
         if action_on:
             lc.on()
         if action_off:

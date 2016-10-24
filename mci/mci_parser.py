@@ -5,7 +5,8 @@ A powerful parser to use the MCI Python API to control your
 MiLight LED bulbs and strips (White and RGBW).
 """
 
-from . import mci
+from . import bridges
+from . import bulbs
 
 
 class MCIParserException(Exception):
@@ -14,6 +15,8 @@ class MCIParserException(Exception):
 
 def parse_bridge(bridge):
     """ Parser and validator for the bridge information """
+    if not bridge:
+        raise MCIParserException('No bridge provided')
     return bridge
     # raise MCIParserException('Provided bridge not available')
 
@@ -69,7 +72,7 @@ def parse_value(value, action):
         if not value:
             return None
         elif isinstance(value, str):
-            if value.upper() in mci.ColorGroup.DISCO_CODES.keys():
+            if value.upper() in bulbs.ColorGroup.DISCO_CODES.keys():
                 return value.upper()
             else:
                 raise MCIParserException('Provided DISCO value not valid (see: mci.ColorGroup.DISCO_CODES)')
@@ -95,7 +98,7 @@ def parse_value(value, action):
             else:
                 raise MCIParserException('Provided COLOR value not valid (0 <= value <= 255)')
         elif isinstance(value, str):
-            if value.upper() in mci.ColorGroup.COLOR_CODES.keys():
+            if value.upper() in bulbs.ColorGroup.COLOR_CODES.keys():
                 return value.upper()
             else:
                 raise MCIParserException('Provided COLOR value not valid (see: mci.ColorGroup.COLOR_CODES)')
@@ -130,7 +133,7 @@ def execute_command(bridge, bulb, group, action, value):
         MCIParserException('Invalid command provided')
 
     if bulb is 'RGBW':
-        lc = mci.ColorGroup(ip_address=bridge, group_number=group)
+        lc = bulbs.ColorGroup(ip_address=bridge, group_number=group)
         if action == 'ON':
             lc.on()
         elif action == 'OFF':
@@ -148,7 +151,7 @@ def execute_command(bridge, bulb, group, action, value):
         elif action == 'COLOR':
             lc.color(value)
     elif bulb is 'WHITE':
-        lc = mci.WhiteGroup(ip_address=bridge, group_number=group)
+        lc = bulbs.WhiteGroup(ip_address=bridge, group_number=group)
         if action == 'ON':
             lc.on()
         if action == 'OFF':
