@@ -12,7 +12,7 @@ The MiLight Control Interface is accompanied by a simple commandline utility whi
 
 MiLight products are also known under the name LimitlessLED, and EasyBulb Lamps.
 
-## mci.py
+## mci module
 
 In this file three API's are defined:
 - DiscoverBridge
@@ -21,19 +21,25 @@ In this file three API's are defined:
 
 These API's control the Bridge discovery functionality, and both the White and Color groups.
 
-### DiscoverBridge
+### DiscoverBridge (bridges.py)
+
+    # import as follows:
+    import mci.bridges
 
 The DiscoverBridge class can be used to discover Wifi Bridges in the local network. It's interface and usage is:
 
     # Find the Wifi Bridges
-    dg = mci.DiscoverBridge(port=48899).discover()
+    dg = mci.bridges.DiscoverBridge(port=48899).discover()
     # Display the found Wifi Bridges
     for (addr, mac) in dg:
         print(' - ip address :' + addr + '\tmac: ' + mac)
 
 Note that the port number should not be changed in normal operation.
 
-### ColorGroup and WhiteGroup
+### ColorGroup and WhiteGroup (bulbs.py)
+
+    # import as follows:
+    import mci.bulbs
 
 The ColorGroup and WhiteGroup classes can be used to control groups of RGBW and White light bulbs and strips. It's interface is:
 
@@ -98,7 +104,10 @@ Disco mode can be stopped by providing a color or setting the lamp into white mo
     + orchid
     + lavender
 
-## mci_parser.py
+## MCI Parser (mci_parser.py)
+
+    # import as follows:
+    import mci.mci_parser
 
 In this file two API's are defined:
 - validate_command
@@ -112,7 +121,7 @@ An example project which uses the parser interface is MiLight-Web [https://githu
 
 The validate_command function can be used to validate the provided textual arguments. It's interface is:
 
-    validate_command(bridge, bulb, group, action, value)
+    mci.mci_parser.validate_command(bridge, bulb, group, action, value)
 
 ToDo.
 
@@ -120,7 +129,7 @@ ToDo.
 
 The execute_command function can be used to execute the provided textual arguments. It calls the validate_command function to validate the provided textual arguments.  It's interface is:
 
-    execute_command(bridge, bulb, group, action, value)
+    mci.mci_parser.execute_command(bridge, bulb, group, action, value)
 
 For more details on the function arguments see: validate_command.
 
