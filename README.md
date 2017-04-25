@@ -2,7 +2,7 @@
 
 The MiLight Control Interface is a powerful Python API to control MiLight LED bulbs and strips (White and RGBW).
 
-Development, updates, feature requests, etc. see [https://github.com/hanckmann/MiLight-Control-Interface](https://github.com/hanckmann/MiLight-Control-Interface).
+Development, updates, feature requests, etc. see [https://github.com/hanckmann/MiLight-Control-Interface](https://github.com/hanckmann/MiLight-Control-Interface). The Python code is tested on Python 3.x.
 
 The interface is an implementation of the LimitlessLED v4.0 Wifi Bridge Control Commandset which can be found in the documentation at [http://www.limitlessled.com/dev/](http://www.limitlessled.com/dev/).
 
